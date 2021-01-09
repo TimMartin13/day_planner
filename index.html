@@ -28,19 +28,22 @@
       <p class="lead">A simple calendar app for scheduling your work day</p>
       <p id="currentDay" class="lead"></p>
     </header>
-    <div class="container">
+    <div id="myContent" class="container col-md-10">
       <!-- Timeblocks go here -->
+      <!-- <section class="row time-block">
+        <div class="hour col-2 col-md-1">9AM</div>
+        <textarea type="text" class="col-8 col-md-10"></textarea>
+        <div class="saveBtn col-2 col-md-1"></div>
+      </section>
+      <section class="row time-block">
+        <div class="hour col-2 col-md-1">10AM</div>
+        <textarea type="text" class="col-8 col-md-10"></textarea>
+        <div class="saveBtn col-2 col-md-1"></div>
+      </section> -->
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.3/dayjs.min.js" integrity="sha512-0fcCRl828lBlrSCa8QJY51mtNqTcHxabaXVLPgw/jPA5Nutujh6CbTdDgRzl9aSPYW/uuE7c4SffFUQFBAy6lg==" crossorigin="anonymous"></script>
-    <script src="./Assets/js/script.js"></script>
-    <!-- <script>
-      
-      let todayDate = $("#currentDay");
-      todayDate.text(dayjs().format('dddd, MMMM D'));
-      
-    </script> -->
-    
+    <script src="./Assets/js/script.js"></script> 
   </body>
 </html>
