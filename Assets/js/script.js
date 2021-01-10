@@ -5,52 +5,95 @@ todayDate.text(dayjs().format('dddd, MMMM D'));
 // Container for our calender content
 let content = $("#myContent");
 
-for (let i = 8; i < 19; i++) {
-    var timeVar = i;
-    var amPm = "AM";
+// Start and end time in military hours
+var startTime = 8;  // 8AM
+var endTime = 19;   // 7PM
 
-    if (i > 11) {
-        timeVar %= 12;
-        timeVar = timeVar == 0 ? 12 : timeVar;
-        amPm = "PM";
-        console.log(timeVar);
-    }
-    console.log(timeVar);
-    // Section
-    let sectionDiv = $("<section>"); 
-    sectionDiv.addClass("row time-block");
-    // // Div for the hour of the day
-    let hourDiv = $("<div>");
-    hourDiv.addClass("hour col-2 col-md-1");
-    hourDiv.text(timeVar + amPm);
-    // // Textarea for the notes
-    let notesArea = $("<textarea>");
-    notesArea.addClass("col-8 col-md-10");
-    notesArea.attr("type", "text");
-    notesArea.attr("data-reference", timeVar);
+function pastPresentFuture (scheduleHour) {
     let currentHour = dayjs().format('H');
-    if (i < currentHour) {
-        notesArea.addClass("past");
+    if (scheduleHour < currentHour) {
+        return "past";
     }
-    else if (i == currentHour) {
-        notesArea.addClass("present");
+    else if (scheduleHour == currentHour) {
+        return "present";
     }
     else {
-        notesArea.addClass("future");
+        return "future";
     }
-
-    // if (i + 8)< HOUR
-        // change background to grey
-        
-    // // Save button
-    let saveDiv = $("<div>");
-    saveDiv.addClass("saveBtn col-2 col-md-1");
-    saveDiv.attr("data-reference", timeVar);
-
-    // Append each part of the section to the section
-    sectionDiv.append(hourDiv);
-    sectionDiv.append(notesArea);
-    sectionDiv.append(saveDiv);
-    // Then append it to the content
-    content.append(sectionDiv);
 }
+
+function populateCalendar() {
+    for (let i = startTime; i < endTime; i++) {
+        var timeVar = i;
+        var amPm = "AM";
+    
+        if (i > 11) {
+            timeVar = (timeVar % 12) == 0 ? 12 : timeVar;
+            amPm = "PM";
+        }
+        // Section
+        let sectionDiv = $("<section>"); 
+        sectionDiv.addClass("row time-block");
+        // // Div for the hour of the day
+        let hourDiv = $("<div>");
+        hourDiv.addClass("hour col-2 col-md-1");
+        hourDiv.text(timeVar + amPm);
+        // // Textarea for the notes
+        let notesArea = $("<textarea>");
+        notesArea.addClass("col-8 col-md-10");
+        notesArea.attr("type", "text");
+        notesArea.attr("data-reference", i);
+        notesArea.addClass(pastPresentFuture(i));
+                    
+        // // Save button
+        let saveDiv = $("<div>");
+        saveDiv.addClass("saveBtn col-2 col-md-1");
+        saveDiv.attr("data-reference", i);
+        
+        let imgDiv = $("<img>");
+        imgDiv.attr("src", "./Assets/images/saveButton.png");
+    
+        // Append each part of the section to the section
+        saveDiv.append(imgDiv);
+        sectionDiv.append(hourDiv);
+        sectionDiv.append(notesArea);
+        sectionDiv.append(saveDiv);
+        // Then append it to the content
+        content.append(sectionDiv);
+        
+    }
+}
+
+function addAppointments() {
+
+    // get all the text areas
+    var allTextAreas = $("textarea");
+    // For each one, get the corresponding local storage data
+    for (let i = 0; i < allTextAreas.length; i++) {
+         var temp = JSON.parse(localStorage.getItem("Hour" + allTextAreas[i].dataset.reference));
+         if (temp != null) {
+            // if there is data, write it to the textarea 
+            allTextAreas[i].value = temp;
+         }
+         
+    }
+}
+populateCalendar();
+addAppointments();
+
+$(".saveBtn").on("click", function() {
+    // Figure out which save button is being pressed
+    var refData = ($(this).attr("data-reference"));
+
+    // Grab all of the textareas
+    var allTextAreas = $("textarea");
+    
+    // Find the one that matches the save button clicked
+    for (let i = 0; i < allTextAreas.length; i++) {
+        if(allTextAreas[i].dataset.reference === refData) {
+            // Write the value of the text to local storage
+            
+            localStorage.setItem("Hour" + allTextAreas[i].dataset.reference, JSON.stringify(allTextAreas[i].value));
+        }
+    }  
+})
