@@ -24,20 +24,17 @@ function pastPresentFuture (scheduleHour) {
 
 function populateCalendar() {
     for (let i = startTime; i < endTime; i++) {
-        var timeVar = i;
-        var amPm = "AM";
-    
-        if (i > 11) {
-            timeVar = (timeVar % 12) == 0 ? 12 : timeVar;
-            amPm = "PM";
-        }
         // Section
         let sectionDiv = $("<section>"); 
         sectionDiv.addClass("row time-block");
         // // Div for the hour of the day
         let hourDiv = $("<div>");
         hourDiv.addClass("hour col-2 col-md-1");
-        hourDiv.text(timeVar + amPm);
+
+        var timeVar = i % 12;
+        timeVar = ((i % 12) == 0 ? 12 : timeVar);
+        hourDiv.text(timeVar + (i > 11 ? "PM" : "AM"));
+        // hourDiv.text(timeVar + amPm);
         // // Textarea for the notes
         let notesArea = $("<textarea>");
         notesArea.addClass("col-8 col-md-10");
