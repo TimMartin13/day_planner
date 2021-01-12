@@ -11,15 +11,9 @@ var endTime = 19;   // 7PM
 
 function pastPresentFuture (scheduleHour) {
     let currentHour = dayjs().format('H');
-    if (scheduleHour < currentHour) {
-        return "past";
-    }
-    else if (scheduleHour == currentHour) {
-        return "present";
-    }
-    else {
-        return "future";
-    }
+    if (scheduleHour < currentHour) { return "past"; }
+    else if (scheduleHour == currentHour) { return "present"; }
+    else { return "future"; }
 }
 
 function populateCalendar() {
@@ -38,7 +32,7 @@ function populateCalendar() {
         // // Textarea for the notes
         let notesArea = $("<textarea>");
         notesArea.addClass("col-8 col-md-10");
-        notesArea.attr("type", "text");
+        // notesArea.attr("type", "text");
         notesArea.attr("data-reference", i);
         notesArea.addClass(pastPresentFuture(i));
                     
@@ -49,6 +43,7 @@ function populateCalendar() {
         
         let imgDiv = $("<img>");
         imgDiv.attr("src", "./Assets/images/saveButton.png");
+        imgDiv.attr("id", "toggle");
     
         // Append each part of the section to the section
         saveDiv.append(imgDiv);
@@ -89,8 +84,9 @@ $(".saveBtn").on("click", function() {
     for (let i = 0; i < allTextAreas.length; i++) {
         if(allTextAreas[i].dataset.reference === refData) {
             // Write the value of the text to local storage
-            
             localStorage.setItem("Hour" + allTextAreas[i].dataset.reference, JSON.stringify(allTextAreas[i].value));
         }
-    }  
+    } 
+    // $( this ).children().effect( "bounce", { times: 3 }, "slow" );
+    $( this ).children().effect( "fade", {}, 1000);
 })
