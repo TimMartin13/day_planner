@@ -38,3 +38,9 @@ Github link: https://github.com/TimMartin13/day_planner
 
 Published link: https://timmartin13.github.io/day_planner/
 
+
+## Contact Information
+
+Phone: 612.799.1450
+Email: timmartin13@gmail.com
+
